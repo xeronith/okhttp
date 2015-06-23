@@ -33,10 +33,10 @@ public final class FormEncodingBuilder {
       content.writeByte('&');
     }
     HttpUrl.canonicalize(content, name, 0, name.length(),
-        HttpUrl.QUERY_COMPONENT_ENCODE_SET, false, true);
+        HttpUrl.FORM_ENCODE_SET, false, true);
     content.writeByte('=');
     HttpUrl.canonicalize(content, value, 0, value.length(),
-        HttpUrl.QUERY_COMPONENT_ENCODE_SET, false, true);
+        HttpUrl.FORM_ENCODE_SET, false, true);
     return this;
   }
 
@@ -46,17 +46,14 @@ public final class FormEncodingBuilder {
       content.writeByte('&');
     }
     HttpUrl.canonicalize(content, name, 0, name.length(),
-        HttpUrl.QUERY_COMPONENT_ENCODE_SET, true, true);
+        HttpUrl.FORM_ENCODE_SET, true, true);
     content.writeByte('=');
     HttpUrl.canonicalize(content, value, 0, value.length(),
-        HttpUrl.QUERY_COMPONENT_ENCODE_SET, true, true);
+        HttpUrl.FORM_ENCODE_SET, true, true);
     return this;
   }
 
   public RequestBody build() {
-    if (content.size() == 0) {
-      throw new IllegalStateException("Form encoded body must have at least one part.");
-    }
     return RequestBody.create(CONTENT_TYPE, content.snapshot());
   }
 }
